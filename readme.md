@@ -53,32 +53,42 @@ python一键启动，无需安装手机客户端。
 
 ## 🛠️ 要求
 
-* **Python 3.x**
+* **Windows 10/11**（电脑输入法候选词同步功能需要 Windows）
+* **Python 3.11 或更高版本**，安装时建议勾选“Add Python to PATH”
+* 手机与电脑连接到同一个局域网
 
 ## 🚀 快速启动
-> 1 安装python3.11 ， 2 双击直接启动 AirMouseserver.bat ，会自动检查依赖和启动服务器。  
-> 3 如果需要控制高权限程序，需要使用管理员权限启动。
 
- **安装依赖**：
-```bash
-pip install -r requirments.txt
+### 新电脑首次安装
+
+1. 从本仓库下载 ZIP 并完整解压，或运行：
+   ```bash
+   git clone https://github.com/baifengsheng/AirMouse.git
+   ```
+2. 安装 Python 3.11 或更高版本。
+3. 双击 `AirMouseserver.bat`。脚本会自动查找 Python、创建 `.venv`、安装固定版本依赖并执行安装自检。
+4. Windows 防火墙首次询问时，允许 Python 访问“专用网络”。
+5. 根据命令窗口显示的局域网 IP，在手机浏览器打开 `https://电脑IP:5888/`。
+
+如果需要控制以管理员身份运行的软件，请右键 `AirMouseserver.bat` 并选择“以管理员身份运行”。
+
+### 手动启动
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe verify_install.py
+.\.venv\Scripts\python.exe server.py
 ```
 
- **运行服务端**：
-```bash
-python server.py
+浏览器会提示证书不受信任，这是项目使用自签名 HTTPS 证书导致的，需要手动选择继续访问。
+Chrome 只有在 HTTPS 页面中才能提供陀螺仪数据。
+
+如果手机无法连接，请确认网络为专用网络，并在“管理员 PowerShell”中执行：
+
+```powershell
+netsh advfirewall firewall add rule name="AirMouse-5888" dir=in action=allow protocol=TCP localport=5888 profile=private
 ```
-
-
-
-
- **连接**：
-确保手机与电脑在同一局域网，访问电脑 IP 的端口（默认 5888）。
-
-例如： http://192.168.31.18:5888/ 
-
-注意，浏览器会提示网页不安全，需要手工点进去信任，因为我们用的是自签的证书
-> CHROME 浏览器安全限制，只有https网页才能传输陀螺仪数据。
 
 ---
 
@@ -131,8 +141,10 @@ def handle_scroll(data):
 - [x] 增加“手机输入法输入”文本框，可使用手机自带九键输入法编辑整段文字并发送到电脑当前输入位置。
 - [x] 优化按键传输方式，将多次按下、释放请求合并为按键序列，降低打字延迟。
 - [x] Windows 文本发送改用 Unicode 输入，支持中文及其他 Unicode 字符直接输入。
-- [x] 启动脚本改为使用项目虚拟环境，并根据 `requirments.txt` 自动安装依赖。
+- [x] 启动脚本改为使用项目虚拟环境，并根据标准 `requirements.txt` 自动安装依赖。
 - [x] 增加 Windows 输入法候选词监听依赖 `uiautomation`。
+- [x] 增加标准 `requirements.txt`、固定依赖版本和全新安装自检脚本。
+- [x] 启动脚本支持 Python Launcher、PATH 和 Windows 默认 Python 安装目录自动探测。
 
 2026-01-23 Day3
 - [x]  两个手指快速抬起导致识别成鼠标跳转修复

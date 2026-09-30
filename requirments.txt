@@ -1,7 +1,2 @@
-psutil
-flask
-flask-socketio
-pyautogui
-pynput
-pyopenssl
-uiautomation
+# Backward-compatible wrapper for the original misspelled filename.
+-r requirements.txt

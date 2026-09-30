@@ -23,6 +23,7 @@ import mouse_service
 import keyboard_service
 import config_manager
 import gamepad_service
+import ime_candidate_service
 
 # 启动手柄后台服务 (如果已安装 inputs)
 gamepad_service.start_threads()
@@ -36,6 +37,9 @@ def status_thread():
         time.sleep(1)
 
 threading.Thread(target=status_thread, daemon=True).start()
+ime_candidate_service.start_monitor(
+    lambda payload: socketio.emit('ime_candidates', payload)
+)
 
 # --- SocketIO 事件绑定 ---
 
@@ -43,6 +47,7 @@ threading.Thread(target=status_thread, daemon=True).start()
 def handle_connect():
     os_type = platform.system()
     socketio.emit('os_info', {'os': os_type})
+    socketio.emit('ime_candidates', ime_candidate_service.get_snapshot())
 
 @socketio.on('load_macros')
 def handle_load():
@@ -100,10 +105,22 @@ def on_scroll(data): mouse_service.handle_scroll(data)
 def on_type(data): keyboard_service.handle_type_text(data)
 
 @socketio.on('key_action')
-def on_key(data): keyboard_service.handle_key_action(data)
+def on_key(data):
+    keyboard_service.handle_key_action(data)
+    if data.get('action') == 'up':
+        ime_candidate_service.request_refresh()
+
+@socketio.on('key_sequence')
+def on_key_sequence(data):
+    keyboard_service.handle_key_sequence(data)
+    ime_candidate_service.request_refresh()
 
 @socketio.on('key_combo')
 def on_combo(data): keyboard_service.handle_combo(data)
+
+@socketio.on('refresh_ime_candidates')
+def on_refresh_ime_candidates():
+    ime_candidate_service.request_refresh()
 
 if __name__ == '__main__':
     port = 5888

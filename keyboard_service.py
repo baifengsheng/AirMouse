@@ -1,11 +1,14 @@
 import time
 import threading
 import platform
+import ctypes
+from ctypes import wintypes
 from pynput.keyboard import Controller as KeyController, Key, KeyCode
 from config_manager import get_special_keys
 
 keyboard = KeyController()
 active_repeats = {} # {key_code: stop_event}
+input_lock = threading.RLock()
 
 def repeat_key(key_obj, stop_event):
     """模拟系统自动重复按键的线程"""
@@ -36,8 +39,112 @@ def handle_key_action(data):
             del active_repeats[key_code]
         keyboard.release(target_key)
 
+def handle_key_sequence(data):
+    keys = data.get('keys', [])
+    if not isinstance(keys, list):
+        return
+
+    special_keys = get_special_keys()
+    with input_lock:
+        for raw_key in keys[:128]:
+            if not isinstance(raw_key, str):
+                continue
+            key_code = raw_key.lower().strip()
+            if not key_code:
+                continue
+            target_key = special_keys.get(key_code, key_code)
+            keyboard.press(target_key)
+            time.sleep(0.001)
+            keyboard.release(target_key)
+            time.sleep(0.001)
+
+def _send_unicode_windows(text):
+    keyeventf_keyup = 0x0002
+    keyeventf_unicode = 0x0004
+    input_keyboard = 1
+    ulong_ptr = ctypes.c_size_t
+
+    class MouseInput(ctypes.Structure):
+        _fields_ = [
+            ('dx', wintypes.LONG),
+            ('dy', wintypes.LONG),
+            ('mouseData', wintypes.DWORD),
+            ('dwFlags', wintypes.DWORD),
+            ('time', wintypes.DWORD),
+            ('dwExtraInfo', ulong_ptr),
+        ]
+
+    class KeyboardInput(ctypes.Structure):
+        _fields_ = [
+            ('wVk', wintypes.WORD),
+            ('wScan', wintypes.WORD),
+            ('dwFlags', wintypes.DWORD),
+            ('time', wintypes.DWORD),
+            ('dwExtraInfo', ulong_ptr),
+        ]
+
+    class HardwareInput(ctypes.Structure):
+        _fields_ = [
+            ('uMsg', wintypes.DWORD),
+            ('wParamL', wintypes.WORD),
+            ('wParamH', wintypes.WORD),
+        ]
+
+    class InputUnion(ctypes.Union):
+        _fields_ = [
+            ('mi', MouseInput),
+            ('ki', KeyboardInput),
+            ('hi', HardwareInput),
+        ]
+
+    class Input(ctypes.Structure):
+        _anonymous_ = ('union',)
+        _fields_ = [
+            ('type', wintypes.DWORD),
+            ('union', InputUnion),
+        ]
+
+    utf16 = text.encode('utf-16-le')
+    code_units = [
+        int.from_bytes(utf16[index:index + 2], 'little')
+        for index in range(0, len(utf16), 2)
+    ]
+    events = []
+
+    for code_unit in code_units:
+        events.append(Input(
+            type=input_keyboard,
+            ki=KeyboardInput(0, code_unit, keyeventf_unicode, 0, 0),
+        ))
+        events.append(Input(
+            type=input_keyboard,
+            ki=KeyboardInput(0, code_unit, keyeventf_unicode | keyeventf_keyup, 0, 0),
+        ))
+
+    if not events:
+        return
+
+    event_array = (Input * len(events))(*events)
+    # Use a dedicated DLL handle so these ctypes signatures do not overwrite
+    # the SendInput function object used internally by pynput.
+    user32 = ctypes.WinDLL('user32', use_last_error=True)
+    send_input = user32.SendInput
+    send_input.argtypes = (wintypes.UINT, ctypes.POINTER(Input), ctypes.c_int)
+    send_input.restype = wintypes.UINT
+    sent = send_input(len(events), event_array, ctypes.sizeof(Input))
+    if sent != len(events):
+        raise ctypes.WinError(ctypes.get_last_error())
+
 def handle_type_text(data):
-    keyboard.type(data['text'])
+    text = data.get('text', '')
+    if not isinstance(text, str) or not text:
+        return
+
+    with input_lock:
+        if platform.system() == 'Windows':
+            _send_unicode_windows(text)
+        else:
+            keyboard.type(text)
 
 def handle_combo(data):
     keys = data['keys']

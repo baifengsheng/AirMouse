@@ -142,6 +142,242 @@
             /* 占据剩余所有垂直空间 */
         }
 
+        .t9-panel {
+            display: none;
+            flex: 1;
+            min-height: 0;
+            width: 100%;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .t9-native-entry {
+            display: flex;
+            width: 100%;
+            height: 40px;
+            flex: 0 0 40px;
+            gap: 5px;
+        }
+
+        .t9-native-entry input {
+            min-width: 0;
+            flex: 1;
+            padding: 0 10px;
+            border: 1px solid #343438;
+            border-radius: 5px;
+            outline: none;
+            background: #161618;
+            color: #fff;
+            font-size: 16px;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .t9-native-entry input:focus {
+            border-color: #007AFF;
+        }
+
+        .t9-native-entry button {
+            width: 42px;
+            min-width: 42px;
+            height: 40px;
+            min-height: 40px;
+            background: #0067c8;
+            font-size: 22px;
+        }
+
+        .t9-compose {
+            min-height: 52px;
+            padding: 3px 4px;
+            border-bottom: 1px solid #222;
+            overflow: hidden;
+        }
+
+        .t9-preedit {
+            min-height: 22px;
+            color: #fff;
+            font-size: 15px;
+            line-height: 22px;
+            white-space: nowrap;
+            overflow-x: auto;
+        }
+
+        .t9-pc-candidates {
+            display: flex;
+            gap: 3px;
+            width: 100%;
+            height: 28px;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .t9-pc-candidates::-webkit-scrollbar {
+            display: none;
+        }
+
+        .t9-pc-candidates button {
+            flex: 1 0 0;
+            min-width: 30px;
+            min-height: 28px;
+            height: 28px;
+            padding: 0 4px;
+            background: #18181a;
+            color: #aaa;
+            font-size: 11px;
+            white-space: nowrap;
+        }
+
+        .t9-pc-candidates.has-candidates button {
+            flex: 0 0 auto;
+            min-width: 62px;
+            max-width: 150px;
+            padding: 0 8px;
+        }
+
+        .t9-pc-candidates button[hidden] {
+            display: none;
+        }
+
+        .t9-candidate-index {
+            margin-right: 4px;
+            color: #777;
+            font-size: 9px;
+        }
+
+        .t9-candidate-text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            color: #f3f3f3;
+            font-size: 14px;
+        }
+
+        .t9-pad {
+            display: none;
+            grid-template-columns: minmax(54px, 0.78fr) repeat(3, minmax(0, 1fr)) minmax(54px, 0.78fr);
+            grid-template-rows: repeat(4, minmax(43px, 1fr));
+            gap: 3px;
+            flex: 1;
+            min-height: 0;
+        }
+
+        .t9-panel[data-mode="pinyin"] .t9-pinyin-pad,
+        .t9-panel[data-mode="number"] .t9-number-pad,
+        .t9-panel[data-mode="symbol"] .t9-symbol-pad {
+            display: grid;
+        }
+
+        .t9-panel:not([data-mode="pinyin"]) .t9-compose {
+            display: none;
+        }
+
+        .t9-pinyin-pad {
+            grid-template-areas:
+                "choices split two three backspace"
+                "choices four five six clear"
+                "choices seven eight nine zero"
+                "symbols numbers space language enter";
+        }
+
+        .t9-number-pad {
+            grid-template-areas:
+                "minus one two three backspace"
+                "at four five six dot"
+                "colon seven eight nine comma"
+                "symbols pinyin zero space enter";
+        }
+
+        .t9-symbol-pad {
+            grid-template-areas:
+                "left-round right-round left-square right-square backspace"
+                "plus minus equal slash backslash"
+                "at hash currency percent ampersand"
+                "pinyin numbers space question enter";
+        }
+
+        .t9-options {
+            grid-area: choices;
+            display: flex;
+            min-width: 0;
+            min-height: 0;
+            flex-direction: column;
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .t9-options::-webkit-scrollbar {
+            display: none;
+        }
+
+        .t9-option {
+            flex: 1 0 25%;
+            min-width: 0;
+            min-height: 40px;
+            padding: 3px;
+            border-radius: 0;
+            border-width: 0 0 1px;
+            background: #171719;
+            color: #f2f2f2;
+            font-size: 14px;
+        }
+
+        .t9-options.is-punctuation .t9-option {
+            flex: 1;
+            font-size: 20px;
+        }
+
+        .t9-option.active {
+            background: #222226;
+            color: #fff;
+            border-color: #555;
+        }
+
+        .t9-key {
+            position: relative;
+            min-width: 0;
+            min-height: 0;
+            padding: 3px;
+            flex-direction: column;
+            gap: 2px;
+            background: #3a3a3c;
+            font-size: 17px;
+            line-height: 1;
+        }
+
+        .t9-key-number {
+            position: absolute;
+            top: 4px;
+            right: 5px;
+            color: #9a9a9f;
+            font-size: 9px;
+            font-weight: 500;
+        }
+
+        .t9-key-label {
+            color: #fff;
+            font-size: 17px;
+            font-weight: 500;
+        }
+
+        .t9-action {
+            background: #171719;
+            font-size: 16px;
+        }
+
+        .t9-mode-key {
+            background: #171719;
+            font-size: 14px;
+        }
+
+        .t9-space-key {
+            background: #3a3a3c;
+            font-size: 14px;
+        }
+
+        .t9-enter {
+            background: #171719;
+            font-size: 22px;
+        }
+
         .row {
             display: flex;
             gap: 4px;
@@ -237,30 +473,48 @@
         }
 
 
-        /* 强制横屏逻辑 (针对手机) */
-        @media screen and (orientation: portrait) and (max-width: 1000px) {
+        /* 手机竖屏使用九键，横屏保持原有全键盘 */
+        @media screen and (orientation: portrait) {
             body {
-                transform-origin: center center;
-                width: 100vh !important;
-                height: 100vw !important;
-                position: fixed;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%) rotate(90deg);
-                padding: 10px;
+                width: 100% !important;
+                height: calc(var(--vh, 1vh) * 100) !important;
+                position: static;
+                transform: none !important;
+                padding: 5px;
                 overflow: hidden;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-            }
-
-            body.not-fs {
-                transform: translate(-50%, -50%) rotate(90deg);
             }
 
             .container {
-                max-width: none;
+                max-width: 520px;
+                transform: none !important;
+            }
+
+            .input-section {
+                min-height: 46px;
+                padding: 3px 6px;
+            }
+
+            .keyboard-grid {
+                display: none;
+            }
+
+            .t9-panel {
+                display: flex;
+                flex: 0 0 clamp(292px, 36vh, 340px);
+                margin-top: auto;
+            }
+
+            .footer-nav {
+                padding: 3px 0;
+            }
+
+            body.native-input-active .t9-panel {
+                flex-basis: 40px;
+            }
+
+            body.native-input-active .t9-compose,
+            body.native-input-active .t9-pad {
+                display: none !important;
             }
         }
 
@@ -419,6 +673,114 @@
             </div>
         </div>
 
+        <div class="t9-panel" id="t9-panel" data-mode="pinyin" aria-label="九键拼音键盘">
+            <div class="t9-native-entry">
+                <input id="t9-native-input" type="text" inputmode="text" enterkeyhint="send"
+                    autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="手机输入法输入">
+                <button type="button" id="t9-native-send" onclick="v(); submitNativeText()" aria-label="发送文字">↑</button>
+            </div>
+
+            <div class="t9-compose">
+                <div class="t9-preedit" id="t9-preedit"></div>
+                <div class="t9-pc-candidates" id="t9-pc-candidates" aria-label="电脑输入法候选词">
+                    <button type="button" data-candidate-index="1" onclick="v(); t9SelectPcCandidate(1)"><span class="t9-candidate-index">1</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="2" onclick="v(); t9SelectPcCandidate(2)"><span class="t9-candidate-index">2</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="3" onclick="v(); t9SelectPcCandidate(3)"><span class="t9-candidate-index">3</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="4" onclick="v(); t9SelectPcCandidate(4)"><span class="t9-candidate-index">4</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="5" onclick="v(); t9SelectPcCandidate(5)"><span class="t9-candidate-index">5</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="6" onclick="v(); t9SelectPcCandidate(6)"><span class="t9-candidate-index">6</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="7" onclick="v(); t9SelectPcCandidate(7)"><span class="t9-candidate-index">7</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="8" onclick="v(); t9SelectPcCandidate(8)"><span class="t9-candidate-index">8</span><span class="t9-candidate-text"></span></button>
+                    <button type="button" data-candidate-index="9" onclick="v(); t9SelectPcCandidate(9)"><span class="t9-candidate-index">9</span><span class="t9-candidate-text"></span></button>
+                </div>
+            </div>
+
+            <div class="t9-pad t9-pinyin-pad">
+                <div class="t9-options is-punctuation" id="t9-options" aria-label="拼音组合"></div>
+                <button type="button" class="t9-key" style="grid-area: split" onclick="v(); t9Split()">
+                    <span class="t9-key-number">1</span><span class="t9-key-label">分词</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: two" onclick="v(); t9PressDigit('2')">
+                    <span class="t9-key-number">2</span><span class="t9-key-label">abc</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: three" onclick="v(); t9PressDigit('3')">
+                    <span class="t9-key-number">3</span><span class="t9-key-label">def</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: four" onclick="v(); t9PressDigit('4')">
+                    <span class="t9-key-number">4</span><span class="t9-key-label">ghi</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: five" onclick="v(); t9PressDigit('5')">
+                    <span class="t9-key-number">5</span><span class="t9-key-label">jkl</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: six" onclick="v(); t9PressDigit('6')">
+                    <span class="t9-key-number">6</span><span class="t9-key-label">mno</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: seven" onclick="v(); t9PressDigit('7')">
+                    <span class="t9-key-number">7</span><span class="t9-key-label">pqrs</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: eight" onclick="v(); t9PressDigit('8')">
+                    <span class="t9-key-number">8</span><span class="t9-key-label">tuv</span>
+                </button>
+                <button type="button" class="t9-key" style="grid-area: nine" onclick="v(); t9PressDigit('9')">
+                    <span class="t9-key-number">9</span><span class="t9-key-label">wxyz</span>
+                </button>
+                <button type="button" class="t9-key t9-action" style="grid-area: backspace" onclick="v(); t9Backspace()" aria-label="退格">⌫</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: clear" onclick="v(); t9Clear()">重输</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: zero" onclick="v(); t9DirectKey('0')">0</button>
+                <button type="button" class="t9-key t9-mode-key" style="grid-area: symbols" onclick="v(); t9SetMode('symbol')">!@#</button>
+                <button type="button" class="t9-key t9-mode-key" style="grid-area: numbers" onclick="v(); t9SetMode('number')">123</button>
+                <button type="button" class="t9-key t9-space-key" style="grid-area: space" onclick="v(); t9Space()">空格</button>
+                <button type="button" class="t9-key t9-mode-key" style="grid-area: language" onclick="v(); t9ToggleLanguage()">中/En</button>
+                <button type="button" class="t9-key t9-enter" style="grid-area: enter" onclick="v(); t9Enter()" aria-label="回车">↵</button>
+            </div>
+
+            <div class="t9-pad t9-number-pad" aria-label="数字键盘">
+                <button type="button" class="t9-key t9-action" style="grid-area: minus" onclick="v(); t9DirectKey('-')">-</button>
+                <button type="button" class="t9-key" style="grid-area: one" onclick="v(); t9DirectKey('1')">1</button>
+                <button type="button" class="t9-key" style="grid-area: two" onclick="v(); t9DirectKey('2')">2</button>
+                <button type="button" class="t9-key" style="grid-area: three" onclick="v(); t9DirectKey('3')">3</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: backspace" onclick="v(); t9Backspace()" aria-label="退格">⌫</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: at" onclick="v(); t9DirectKey('@')">@</button>
+                <button type="button" class="t9-key" style="grid-area: four" onclick="v(); t9DirectKey('4')">4</button>
+                <button type="button" class="t9-key" style="grid-area: five" onclick="v(); t9DirectKey('5')">5</button>
+                <button type="button" class="t9-key" style="grid-area: six" onclick="v(); t9DirectKey('6')">6</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: dot" onclick="v(); t9DirectKey('.')">.</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: colon" onclick="v(); t9DirectKey(':')">:</button>
+                <button type="button" class="t9-key" style="grid-area: seven" onclick="v(); t9DirectKey('7')">7</button>
+                <button type="button" class="t9-key" style="grid-area: eight" onclick="v(); t9DirectKey('8')">8</button>
+                <button type="button" class="t9-key" style="grid-area: nine" onclick="v(); t9DirectKey('9')">9</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: comma" onclick="v(); t9DirectKey(',')">,</button>
+                <button type="button" class="t9-key t9-mode-key" style="grid-area: symbols" onclick="v(); t9SetMode('symbol')">!@#</button>
+                <button type="button" class="t9-key t9-mode-key" style="grid-area: pinyin" onclick="v(); t9SetMode('pinyin')">中文</button>
+                <button type="button" class="t9-key" style="grid-area: zero" onclick="v(); t9DirectKey('0')">0</button>
+                <button type="button" class="t9-key t9-space-key" style="grid-area: space" onclick="v(); t9Space()">空格</button>
+                <button type="button" class="t9-key t9-enter" style="grid-area: enter" onclick="v(); t9Enter()" aria-label="回车">↵</button>
+            </div>
+
+            <div class="t9-pad t9-symbol-pad" aria-label="符号键盘">
+                <button type="button" class="t9-key" style="grid-area: left-round" onclick="v(); t9DirectKey('(')">(</button>
+                <button type="button" class="t9-key" style="grid-area: right-round" onclick="v(); t9DirectKey(')')">)</button>
+                <button type="button" class="t9-key" style="grid-area: left-square" onclick="v(); t9DirectKey('[')">[</button>
+                <button type="button" class="t9-key" style="grid-area: right-square" onclick="v(); t9DirectKey(']')">]</button>
+                <button type="button" class="t9-key t9-action" style="grid-area: backspace" onclick="v(); t9Backspace()" aria-label="退格">⌫</button>
+                <button type="button" class="t9-key" style="grid-area: plus" onclick="v(); t9DirectKey('+')">+</button>
+                <button type="button" class="t9-key" style="grid-area: minus" onclick="v(); t9DirectKey('-')">-</button>
+                <button type="button" class="t9-key" style="grid-area: equal" onclick="v(); t9DirectKey('=')">=</button>
+                <button type="button" class="t9-key" style="grid-area: slash" onclick="v(); t9DirectKey('/')">/</button>
+                <button type="button" class="t9-key" style="grid-area: backslash" onclick="v(); t9DirectKey('\\')">\</button>
+                <button type="button" class="t9-key" style="grid-area: at" onclick="v(); t9DirectKey('@')">@</button>
+                <button type="button" class="t9-key" style="grid-area: hash" onclick="v(); t9DirectKey('#')">#</button>
+                <button type="button" class="t9-key" style="grid-area: currency" onclick="v(); t9DirectKey('$')">$</button>
+                <button type="button" class="t9-key" style="grid-area: percent" onclick="v(); t9DirectKey('%')">%</button>
+                <button type="button" class="t9-key" style="grid-area: ampersand" onclick="v(); t9DirectKey('&amp;')">&amp;</button>
+                <button type="button" class="t9-key t9-mode-key" style="grid-area: pinyin" onclick="v(); t9SetMode('pinyin')">中文</button>
+                <button type="button" class="t9-key t9-mode-key" style="grid-area: numbers" onclick="v(); t9SetMode('number')">123</button>
+                <button type="button" class="t9-key t9-space-key" style="grid-area: space" onclick="v(); t9Space()">空格</button>
+                <button type="button" class="t9-key" style="grid-area: question" onclick="v(); t9DirectKey('?')">?</button>
+                <button type="button" class="t9-key t9-enter" style="grid-area: enter" onclick="v(); t9Enter()" aria-label="回车">↵</button>
+            </div>
+        </div>
+
         <div class="footer-nav">
             <button onclick="v(); goBack()" class="nav-btn">返回主页</button>
             <button id="tablet-toggle" onclick="v(); toggleTablet()" class="nav-btn">平板模式</button>
@@ -426,6 +788,7 @@
     </div>
 
     <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script src="/static/js/t9-pinyin.js"></script>
     <script>
         const socket = io();
         let audioCtx = null;
@@ -525,18 +888,294 @@
             });
         }
 
-        function sendKey(key) {
-            socket.emit('key_action', { key: key, action: 'down' });
-            setTimeout(() => { socket.emit('key_action', { key: key, action: 'up' }); }, 30);
-        }
-
-        function submitText() {
-            const input = document.getElementById('text-input');
-            if (input.value.length > 0) {
-                socket.emit('type_text', { text: input.value });
-                input.value = '';
+        function sendKeySequence(keys) {
+            if (keys.length > 0) {
+                socket.emit('key_sequence', { keys });
             }
         }
+
+        function sendKey(key) {
+            if (t9State.sentText) resetT9State();
+            sendKeySequence([key]);
+        }
+
+        const t9State = {
+            mode: 'pinyin',
+            digits: '',
+            options: [],
+            optionIndex: 0,
+            segments: [],
+            sentText: ''
+        };
+
+        function t9CurrentOption() {
+            return t9State.options[t9State.optionIndex] || null;
+        }
+
+        function queueT9Key(key) {
+            sendKeySequence([key]);
+        }
+
+        function t9TargetText() {
+            const current = t9CurrentOption();
+            return t9State.segments.join('') + (current ? current.text : '');
+        }
+
+        function syncT9ToComputer() {
+            const nextText = t9TargetText();
+            const previousText = t9State.sentText;
+            let commonLength = 0;
+
+            while (
+                commonLength < previousText.length &&
+                commonLength < nextText.length &&
+                previousText[commonLength] === nextText[commonLength]
+            ) {
+                commonLength++;
+            }
+
+            const keys = [];
+            for (let index = commonLength; index < previousText.length; index++) {
+                keys.push('backspace');
+            }
+            for (const letter of nextText.slice(commonLength)) {
+                keys.push(letter);
+            }
+            sendKeySequence(keys);
+            t9State.sentText = nextText;
+        }
+
+        function renderT9() {
+            const current = t9CurrentOption();
+            const preedit = [...t9State.segments];
+            if (current) preedit.push(current.text);
+            document.getElementById('t9-preedit').innerText = preedit.join("'");
+            document.getElementById('t9-panel').dataset.mode = t9State.mode;
+
+            const optionBox = document.getElementById('t9-options');
+            optionBox.replaceChildren();
+            optionBox.classList.toggle('is-punctuation', t9State.options.length === 0);
+
+            if (t9State.options.length === 0) {
+                [
+                    { text: ',', key: ',' },
+                    { text: '.', key: '.' },
+                    { text: '?', key: '?' }
+                ].forEach(item => {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 't9-option';
+                    button.innerText = item.text;
+                    button.onclick = () => {
+                        v();
+                        t9DirectKey(item.key);
+                    };
+                    optionBox.appendChild(button);
+                });
+                return;
+            }
+
+            t9State.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 't9-option' + (index === t9State.optionIndex ? ' active' : '');
+                button.innerText = option.text;
+                button.onclick = () => {
+                    v();
+                    t9ChooseOption(index);
+                };
+                optionBox.appendChild(button);
+            });
+        }
+
+        function setT9Digits(digits, preferredPrefix = '') {
+            t9State.digits = digits;
+            t9State.options = digits ? T9Pinyin.candidatesForDigits(digits, preferredPrefix) : [];
+            t9State.optionIndex = 0;
+
+            if (preferredPrefix) {
+                const preferredIndex = t9State.options.findIndex(option => option.text.startsWith(preferredPrefix));
+                if (preferredIndex >= 0) t9State.optionIndex = preferredIndex;
+            }
+        }
+
+        function confirmT9Segment() {
+            const current = t9CurrentOption();
+            if (!current || !current.complete) return false;
+            t9State.segments.push(current.text);
+            setT9Digits('');
+            renderT9();
+            return true;
+        }
+
+        function t9PressDigit(digit) {
+            const current = t9CurrentOption();
+            const preferredPrefix = current ? current.text : '';
+            let nextDigits = t9State.digits + digit;
+            let nextOptions = T9Pinyin.candidatesForDigits(nextDigits, preferredPrefix);
+
+            if (nextOptions.length === 0 && current && current.complete) {
+                confirmT9Segment();
+                nextDigits = digit;
+                nextOptions = T9Pinyin.candidatesForDigits(nextDigits);
+            }
+            if (nextOptions.length === 0) return;
+
+            setT9Digits(nextDigits, preferredPrefix);
+            renderT9();
+            syncT9ToComputer();
+        }
+
+        function t9ChooseOption(index) {
+            if (!t9State.options[index]) return;
+            t9State.optionIndex = index;
+            renderT9();
+            syncT9ToComputer();
+
+            if (t9State.options[index].complete) {
+                confirmT9Segment();
+            }
+        }
+
+        function t9Split() {
+            confirmT9Segment();
+        }
+
+        function t9Backspace() {
+            const current = t9CurrentOption();
+            if (t9State.digits.length > 0) {
+                const nextDigits = t9State.digits.slice(0, -1);
+                const preferredPrefix = current ? current.text.slice(0, -1) : '';
+                setT9Digits(nextDigits, preferredPrefix);
+                renderT9();
+                syncT9ToComputer();
+                return;
+            }
+
+            if (t9State.segments.length > 0) {
+                t9State.segments.pop();
+                renderT9();
+                syncT9ToComputer();
+                return;
+            }
+
+            queueT9Key('backspace');
+        }
+
+        function t9Clear() {
+            sendKeySequence(Array(t9State.sentText.length).fill('backspace'));
+            resetT9State();
+        }
+
+        function resetT9State() {
+            t9State.digits = '';
+            t9State.options = [];
+            t9State.optionIndex = 0;
+            t9State.segments = [];
+            t9State.sentText = '';
+            renderT9();
+            document.getElementById('t9-options').scrollTop = 0;
+        }
+
+        function t9SelectPcCandidate(number) {
+            queueT9Key(String(number));
+            resetT9State();
+            renderPcCandidates({ candidates: [] });
+        }
+
+        function t9DirectKey(key) {
+            queueT9Key(key);
+            resetT9State();
+        }
+
+        function t9SetMode(mode) {
+            if (!['pinyin', 'number', 'symbol'].includes(mode) || mode === t9State.mode) return;
+            if (t9State.sentText) {
+                queueT9Key('space');
+                resetT9State();
+            }
+            t9State.mode = mode;
+            renderT9();
+        }
+
+        function t9ToggleLanguage() {
+            if (t9State.sentText) {
+                queueT9Key('space');
+                resetT9State();
+            }
+            queueT9Key('shift');
+        }
+
+        function t9Space() {
+            confirmT9Segment();
+            queueT9Key('space');
+            resetT9State();
+        }
+
+        function t9Enter() {
+            confirmT9Segment();
+            queueT9Key('enter');
+            resetT9State();
+        }
+
+        function renderPcCandidates(payload = {}) {
+            const candidateBox = document.getElementById('t9-pc-candidates');
+            const candidates = Array.isArray(payload.candidates)
+                ? payload.candidates.filter(candidate => typeof candidate === 'string' && candidate.trim()).slice(0, 9)
+                : [];
+            const buttons = [...candidateBox.querySelectorAll('button')];
+            const hasCandidates = candidates.length > 0;
+
+            candidateBox.classList.toggle('has-candidates', hasCandidates);
+            buttons.forEach((button, index) => {
+                const text = candidates[index] || '';
+                button.hidden = hasCandidates && index >= candidates.length;
+                button.querySelector('.t9-candidate-text').innerText = text;
+                button.setAttribute(
+                    'aria-label',
+                    text ? (index + 1) + ' ' + text : '候选 ' + (index + 1)
+                );
+            });
+        }
+
+        socket.on('ime_candidates', renderPcCandidates);
+        socket.on('connect', () => socket.emit('refresh_ime_candidates'));
+
+        const nativeTextInput = document.getElementById('t9-native-input');
+        let nativeInputComposing = false;
+
+        function submitNativeText() {
+            if (nativeInputComposing) {
+                nativeTextInput.blur();
+                setTimeout(submitNativeText, 30);
+                return;
+            }
+
+            const text = nativeTextInput.value;
+            if (!text) return;
+            socket.emit('type_text', { text });
+            nativeTextInput.value = '';
+            setTimeout(() => nativeTextInput.focus({ preventScroll: true }), 0);
+        }
+
+        nativeTextInput.addEventListener('compositionstart', () => {
+            nativeInputComposing = true;
+        });
+        nativeTextInput.addEventListener('compositionend', () => {
+            nativeInputComposing = false;
+        });
+        nativeTextInput.addEventListener('keydown', event => {
+            if (event.key === 'Enter' && !nativeInputComposing) {
+                event.preventDefault();
+                submitNativeText();
+            }
+        });
+        nativeTextInput.addEventListener('focus', () => {
+            document.body.classList.add('native-input-active');
+        });
+        nativeTextInput.addEventListener('blur', () => {
+            document.body.classList.remove('native-input-active');
+        });
 
         function goBack() {
             // 强制清除所有锁定状态
@@ -601,6 +1240,8 @@
         }
         document.addEventListener('fullscreenchange', updateFullscreenUI);
         updateFullscreenUI(); // 初始化
+
+        renderT9();
     </script>
 </body>
 
